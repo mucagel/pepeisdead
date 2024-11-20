@@ -57,11 +57,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/GithubFinalUpdateTimeUpdate.loader.js";
+      var loaderUrl = buildUrl + "/Test_v1.loader.js";
       var config = {
-        dataUrl: buildUrl + "/GithubFinalUpdateTimeUpdate.data.unityweb",
-        frameworkUrl: buildUrl + "/GithubFinalUpdateTimeUpdate.framework.js.unityweb",
-        codeUrl: buildUrl + "/GithubFinalUpdateTimeUpdate.wasm.unityweb",
+        dataUrl: buildUrl + "/Test_v1.data.unityweb",
+        frameworkUrl: buildUrl + "/Test_v1.framework.js.unityweb",
+        codeUrl: buildUrl + "/Test_v1.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "FatOctopus",
         productName: "PepeIsDead",
@@ -117,7 +117,7 @@
               }).then((unityInstance) => {
                 loadingBar.style.display = "none";
                 fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
+                  document.makeFullscreen('unity-container');
                 };
               }).catch((message) => {
                 alert(message);
