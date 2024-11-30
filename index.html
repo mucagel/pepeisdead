@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | Pepe is dead - The Game</title>
+    <title>Unity WebGL Player | Pepe is dead - The Game</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -18,13 +18,19 @@
       </div>
       <div id="unity-warning"> </div>
       <div id="unity-footer">
-        <div id="unity-logo-title-footer"></div>
+        <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">Pepe is dead - The Game</div>
       </div>
     </div>
     <script>
+
+      var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -33,7 +39,6 @@
       // way that non-critical warnings and error messages are presented to the
       // user.
       function unityShowBanner(msg, type) {
-        var warningBanner = document.querySelector("#unity-warning");
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
@@ -52,10 +57,9 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/e988cadb06c6e3ec37b64dc7999ee701.loader.js";
+      var loaderUrl = buildUrl + "/81ed1880f4c4ef2eb6487d4721eb1107.loader.js";
       var config = {
-        arguments: [],
-        dataUrl: buildUrl + "/4e1fa0628b5ca63330beca80ef358cbf.data.unityweb",
+        dataUrl: buildUrl + "/357da20bec56ecf49c88490ea7d04b80.data.unityweb",
         frameworkUrl: buildUrl + "/830365dc0e933d7b1946e4fd4fa04d77.framework.js.unityweb",
         codeUrl: buildUrl + "/6c6a3616d2fb0c97f94133e93b730df6.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
@@ -88,7 +92,7 @@
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
-        document.querySelector("#unity-container").className = "unity-mobile";
+        container.className = "unity-mobile";
         canvas.className = "unity-mobile";
 
         // To lower canvas resolution on mobile devices to gain some
@@ -98,23 +102,23 @@
 
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
         canvas.style.width = "1920px";
         canvas.style.height = "1080px";
       }
 
-      document.querySelector("#unity-loading-bar").style.display = "block";
+      loadingBar.style.display = "block";
 
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+          progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
-                document.querySelector("#unity-loading-bar").style.display = "none";
-                document.querySelector("#unity-fullscreen-button").onclick = () => {
-                    document.querySelector('#canvas-container').requestFullscreen();
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                  unityInstance.SetFullscreen(1);
                 };
-
               }).catch((message) => {
                 alert(message);
               });
